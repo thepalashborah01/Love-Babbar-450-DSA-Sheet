@@ -1,4 +1,4 @@
-// O(n62)
+// O(n^2)
 #include <bits/stdc++.h>
 using namespace std;
 
