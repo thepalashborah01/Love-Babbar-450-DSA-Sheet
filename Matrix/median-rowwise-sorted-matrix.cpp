@@ -3,34 +3,33 @@ using namespace std;
 
 class Solution{   
 public:
-    int countSmallerthanMid(vector<int>& row, int mid)
+    int median(vector<vector<int>>& ans, int r, int c)
     {
-        int l = 0, h = row.size()-1;
-        while(l <= h)
+        int min = INT_MIN, max = INT_MAX;
+        for(int i=0; i<r; i++)
         {
-            int md = (l+h)/2;
-            if(row[md] <= mid)
-                l = md+1;
-            else
-                h = md-1;
+            if(ans[i][0] < min)
+                min = ans[i][0];
+            
+            if(ans[i][c-1] > max)
+                max = ans[i][c-1];
         }
-        return l;
-    }
-    int median(vector<vector<int>> &matrix, int r, int c){
-        // code here    
-        int low = 1, high = 1e9;
-        while(low <= high)
+
+        int desired = (r*c+1)/2;
+
+        while(min < max)
         {
-            int mid = (low+high)/2;
-            int count = 0;
+            int mid = min + (max-min) /2;
+            int place = 0;
+
             for(int i=0; i<r; i++)
-                count += countSmallerthanMid(matrix[i], mid);
-            if(count <= (r*c)/2) 
-                low = mid+1;
+                place += upper_bound(ans[i].begin(), ans[i].end(), mid) - ans[i].begin();
+            if(place < desired)
+                min = mid+1;
             else
-                high = mid-1;
+                max = mid-1; 
         }
-        return low;
+        return min;
     }
 };
 
